@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>6A Anglais – Period 2 – L'étrange Noël de Mr Jack</title>
+<style>
+  :root{
+    --bg:#fbf6ee; --ink:#1f2a44; --muted:#64748b; --card:#fff;
+    --hal:#ea580c; --hal2:#7c3aed; --xmas:#b91c1c; --xmas2:#15803d;
+    --blue:#1d4ed8; --green:#15803d; --red:#dc2626; --yellow:#fde68a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--bg);color:var(--ink);font-family:"Comic Sans MS","Chalkboard SE","Segoe UI",Arial,sans-serif;overflow:hidden}
+  #stage{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:7vh 5vw 11vh;text-align:center;gap:2.4vh}
+  #stage.menu{justify-content:flex-start;overflow:auto;padding-top:4vh}
+  .tag{position:absolute;top:2vh;left:2vw;font-size:2.2vh;padding:.6vh 1.4vw;border-radius:99px;color:#fff;background:var(--c,var(--blue))}
+  .time{position:absolute;top:2vh;right:2vw;font-size:2.4vh;color:var(--muted)}
+  h1{font-size:7.5vh;line-height:1.1;color:var(--c,var(--blue))}
+  h2{font-size:5.6vh;color:var(--c,var(--blue))}
+  h3{font-size:3.8vh}
+  p,li{font-size:3.8vh;line-height:1.35}
+  .big{font-size:5.2vh}
+  .small{font-size:2.8vh;color:var(--muted)}
+  .box{background:var(--card);border-radius:3vh;padding:3vh 3vw;box-shadow:0 .8vh 0 rgba(0,0,0,.08);max-width:88vw}
+  .goal{background:var(--yellow);border-radius:2vh;padding:2vh 3vw;font-size:3.4vh;max-width:80vw}
+  .emoji{font-size:20vh;line-height:1}
+  button{font-family:inherit;font-size:3vh;padding:1.3vh 2.2vw;border:none;border-radius:99px;background:var(--c,var(--blue));color:#fff;cursor:pointer;box-shadow:0 .6vh 0 rgba(0,0,0,.18)}
+  button:active{transform:translateY(.4vh);box-shadow:none}
+  button.alt{background:var(--green)} button.warn{background:var(--red)} button.ghost{background:#e2e8f0;color:var(--ink)}
+  .btns{display:flex;gap:1.4vw;flex-wrap:wrap;justify-content:center}
+  .answer{visibility:hidden;color:var(--green);font-weight:bold}
+  .answer.show{visibility:visible}
+  .card{background:var(--card);border-radius:2.5vh;padding:1.6vh 1vw;box-shadow:0 .7vh 0 rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+  .card .e{font-size:10vh;line-height:1.1}
+  .card .w{font-size:3vh;font-weight:bold}
+  .grid6{display:grid;grid-template-columns:repeat(3,22vw);gap:2.2vh 2vw}
+  .grid6 .card{min-height:21vh}
+  .card.gap{background:transparent;box-shadow:none;border:.5vh dashed #cbd5e1}
+  .card.gap *{visibility:hidden}
+  .fcgrid{display:grid;gap:1.8vh 1.6vw;width:88vw}
+  .fcgrid .card{min-height:17vh}
+  .fcgrid .card .e{font-size:8vh}
+  .fcgrid .card .w{font-size:2.6vh}
+  ol.q{text-align:left;list-style:none;display:flex;flex-direction:column;gap:1.4vh;max-width:88vw}
+  ol.q li{cursor:pointer;background:var(--card);border-radius:2vh;padding:1.1vh 2vw;box-shadow:0 .5vh 0 rgba(0,0,0,.06);font-size:3.5vh}
+  ol.q li .n{display:inline-block;width:4.6vh;height:4.6vh;line-height:4.6vh;text-align:center;border-radius:50%;background:var(--yellow);margin-right:1vw;font-size:3vh}
+  ol.q li .answer{margin-left:1vw}
+  .choices{display:grid;grid-template-columns:repeat(2,minmax(28vw,1fr));gap:2vh 2vw}
+  .choice{background:var(--card);border-radius:2.5vh;box-shadow:0 .6vh 0 rgba(0,0,0,.08);cursor:pointer;font-size:3.8vh;display:flex;align-items:center;justify-content:center;min-height:15vh;border:.5vh solid transparent;padding:1vh 1vw}
+  .choice .e{font-size:10vh}
+  .choice.ok{border-color:var(--green);background:#dcfce7} .choice.ko{border-color:var(--red);background:#fee2e2}
+  .memo{display:grid;gap:1.4vh 1vw;width:92vw}
+  .mc{perspective:1000px;height:16vh;cursor:pointer}
+  .mc .in{position:relative;width:100%;height:100%;transition:transform .4s;transform-style:preserve-3d}
+  .mc.flip .in,.mc.done .in{transform:rotateY(180deg)}
+  .mc .f,.mc .b{position:absolute;inset:0;border-radius:2vh;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;box-shadow:0 .5vh 0 rgba(0,0,0,.1);padding:1vh}
+  .mc .f{background:linear-gradient(135deg,var(--c,#1d4ed8),#1f2a44);color:#fff;font-size:6vh}
+  .mc .b{background:#fff;transform:rotateY(180deg);font-size:2.8vh;font-weight:bold}
+  .mc .b .e{font-size:9vh;font-weight:normal}
+  .mc.done .b{background:#dcfce7}
+  .card p{font-size:inherit}
+  .film{display:flex;gap:3vw;align-items:center;justify-content:center;flex-wrap:wrap}
+  .film .clap{font-size:16vh}
+  .ep{font-size:6vh;font-weight:bold;color:var(--c)}
+  /* Where is the monster */
+  .scene{position:relative;width:60vw;height:38vh;background:var(--card);border-radius:3vh;box-shadow:0 .8vh 0 rgba(0,0,0,.08)}
+  .scene .obj{position:absolute;font-size:15vh;line-height:1;transform:translate(-50%,-50%)}
+  .scene .mon{position:absolute;font-size:9vh;line-height:1;transform:translate(-50%,-50%)}
+  .scene .floor{position:absolute;left:5%;right:5%;bottom:12%;border-bottom:.6vh solid #cbd5e1}
+  .prep{display:flex;flex-wrap:wrap;gap:1.2vh 1vw;justify-content:center;max-width:90vw}
+  .prep .card{min-width:13vw;padding:1vh 1vw}
+  .prep .card .e{font-size:6vh}
+  .tf{display:grid;grid-template-columns:1fr auto;gap:1.2vh 2vw;align-items:center;max-width:86vw;text-align:left}
+  .tf .s{background:var(--card);border-radius:2vh;padding:1.1vh 2vw;font-size:3.3vh;box-shadow:0 .5vh 0 rgba(0,0,0,.06);cursor:pointer}
+  .tf .a{font-size:3.3vh;font-weight:bold;visibility:hidden;white-space:nowrap}
+  .tf .a.show{visibility:visible}
+  .prof{position:absolute;bottom:9.5vh;left:50%;transform:translateX(-50%);font-size:2.3vh;color:var(--muted);background:#ffffffb0;padding:.7vh 1.5vw;border-radius:1vh;max-width:84vw}
+  .letter{background:#fff;border-radius:2vh;padding:3vh 4vw;box-shadow:0 .8vh 0 rgba(0,0,0,.08);text-align:left;font-size:3.6vh;line-height:1.7;border-left:1.2vh solid var(--xmas)}
+  .letter u{text-decoration:none;border-bottom:.35vh dotted var(--ink);padding:0 3vw}
+  .dark{position:fixed;inset:0;background:#0f172a;color:#fff;display:none;align-items:center;justify-content:center;flex-direction:column;gap:3vh;z-index:50;cursor:pointer}
+  .dark.show{display:flex}
+  .dark p{font-size:9vh}
+  nav{position:fixed;bottom:1.8vh;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:1.6vw;z-index:40}
+  nav button{font-size:2.3vh;padding:.8vh 1.5vw;background:#1f2a44cc}
+  #count{font-size:2.3vh;color:var(--muted);min-width:8vw;text-align:center}
+  /* Menu */
+  .weeks{display:grid;grid-template-columns:repeat(3,1fr);gap:2.4vh 2vw;width:92vw;max-width:1500px}
+  .week{background:#fff;border-radius:2.5vh;padding:2vh 1.4vw;box-shadow:0 .7vh 0 rgba(0,0,0,.07);text-align:left}
+  .week h3{font-size:2.6vh;color:var(--muted);margin-bottom:1vh}
+  .sess{display:flex;align-items:center;gap:1vw;padding:1.2vh 1vw;border-radius:1.6vh;cursor:pointer;border:.4vh solid transparent}
+  .sess:hover{border-color:var(--yellow);background:#fffbeb}
+  .sess .ic{font-size:5.5vh}
+  .sess b{display:block;font-size:2.8vh}
+  .sess span{font-size:2.2vh;color:var(--muted)}
+  .frpic{display:inline-block;color:var(--hal2);border:.4vh dashed #d8b4fe;border-radius:1.5vh;padding:.6vh 1vw;line-height:1.2;font-family:inherit}
+  .vocab{display:flex;flex-wrap:wrap;gap:1vh 1vw;justify-content:center;max-width:90vw}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<div class="dark" id="dark"><p id="darkTxt">🙈 Close your eyes!</p><p style="font-size:3.5vh">(clic pour « Open your eyes! »)</p></div>
+<nav id="nav">
+  <button onclick="home()">🏠</button>
+  <button onclick="go(-1)">◀</button>
+  <span id="count"></span>
+  <button onclick="go(1)">▶</button>
+  <button onclick="fs()">Plein écran</button>
+</nav>
+
+<script>
+/* ================= VOCABULAIRE ================= */
+const SETS={
+ halloween:[
+  {e:"💀",w:"a skull",fr:"un crâne"},{e:"🦴",w:"a skeleton",fr:"un squelette"},
+  {e:"🕷️",w:"a spider",fr:"une araignée"},{e:"🧙‍♀️",w:"a witch",fr:"une sorcière"},
+  {e:"🦇",w:"a bat",fr:"une chauve-souris"},{e:"🧹",w:"a broom",fr:"un balai"},
+  {e:"👻",w:"a ghost",fr:"un fantôme"},{e:"🎃",w:"a jack-o'-lantern",fr:"une citrouille-lanterne"},
+  {e:"🍬",w:"sweets",fr:"des bonbons"},{e:"🫕",w:"a cauldron",fr:"un chaudron"},
+  {e:"🧛",w:"a vampire",fr:"un vampire"},{e:"😈",w:"a devil",fr:"un diable"},
+  {e:"🚪🍬",w:"trick or treat",fr:"des bonbons ou un sort"}
+ ],
+ pronouns:[
+  {e:"👦",w:"he",fr:"il (un garçon, un homme)"},{e:"👧",w:"she",fr:"elle (une fille, une femme)"},
+  {e:"🌕",w:"it",fr:"il / elle (une chose, un animal)"},{e:"👻👻",w:"they",fr:"ils / elles (plusieurs)"}
+ ],
+ preps:[],
+ xmas:[
+  {e:"🎁",w:"a present",fr:"un cadeau"},{e:"",w:"a fireplace",fr:"une cheminée"},
+  {e:"⭐",w:"a star",fr:"une étoile"},{e:"🕯️",w:"a candle",fr:"une bougie"},
+  {e:"",w:"a candy cane",fr:"un sucre d'orge"},{e:"🎄",w:"a Christmas tree",fr:"un sapin de Noël"},
+  {e:"",w:"tinsel",fr:"une guirlande"},{e:"",w:"a bauble",fr:"une boule de Noël"},
+  {e:"🧦",w:"a Christmas stocking",fr:"une chaussette de Noël"},
+  {e:"🎅",w:"Santa Claus",fr:"le Père Noël"},{e:"🦌",w:"a reindeer",fr:"un renne"},{e:"🛷",w:"a sleigh",fr:"un traîneau"}
+ ],
+ toys:[
+  {e:"🚗",w:"a car",fr:"une voiture"},{e:"🧩",w:"a jigsaw",fr:"un puzzle"},
+  {e:"🃏",w:"cards",fr:"des cartes"},{e:"🪁",w:"a kite",fr:"un cerf-volant"},
+  {e:"🛴",w:"a scooter",fr:"une trottinette"},{e:"📖",w:"a book",fr:"un livre"},
+  {e:"",w:"a jump rope",fr:"une corde à sauter"},{e:"",w:"marbles",fr:"des billes"},
+  {e:"🪆",w:"a doll",fr:"une poupée"},{e:"🎮",w:"a video game",fr:"un jeu vidéo"},
+  {e:"🎲",w:"a board game",fr:"un jeu de société"},{e:"🚲",w:"a bike",fr:"un vélo"},
+  {e:"⚽",w:"a ball",fr:"un ballon"}
+ ]
+};
+SETS.mix=[...SETS.halloween.slice(0,6),...SETS.xmas.filter(v=>v.e).slice(0,6),...SETS.toys.filter(v=>v.e).slice(0,6)];
+SETS.hx=[...SETS.halloween,...SETS.xmas];
+
+/* ================= SÉANCES ================= */
+const H="var(--hal)",X="var(--xmas)",V="var(--hal2)",G="var(--xmas2)";
+const SESS=[
+/* ---------- 1 ---------- */
+{n:1,week:"Semaine du 9 nov.",ic:"🎃",c:H,title:"Halloween Town",sub:"Épisode 1 • vocabulaire d'Halloween",slides:[
+ {t:"title",goal:"Je découvre le film et je connais le vocabulaire d'Halloween (fiche HALLOWEEN WORDS)."},
+ {t:"box",time:"4 min",h:"Hello everybody! 👋",html:`<p>How are you today?</p><p class="big">😀 I'm great! &nbsp; 🙂 I'm fine. &nbsp; 😐 I'm OK. &nbsp; 😴 I'm tired.</p><p>What's the date today? 📅</p>`},
+ {t:"box",time:"5 min",h:"New chapter! 🎬",html:`<p class="big"><b>L'étrange Noël de Mister Jack</b></p><p><i>The Nightmare Before Christmas</i> – Tim Burton</p><p>🎃 Halloween Town &nbsp; ➡️ &nbsp; 🎄 Christmas Town</p><p class="small">Tâche finale : écrire ma lettre au Père Noël ✉️🎅 (« Dear Santa, I would like… »)</p>`,prof:"Faire deviner le thème à partir du titre. Distribuer le glossaire (00 – Glossaire) à compléter pendant tout le film."},
+ {t:"film",time:"5 min",ep:1,from:"0'00",to:"4'27",task:"Listen and look: lève la main quand tu vois un monstre ! 🙋"},
+ {t:"cards",time:"10 min",set:"halloween",h:"Halloween words 🎃",prof:"Montrer chaque carte, la classe répète (fort / chuchoté / voix de sorcière !)."},
+ {t:"say",time:"8 min",set:"halloween"},
+ {t:"wm",time:"6 min",set:"halloween"},
+ {t:"box",time:"10 min",h:"Trace écrite 📒",html:`<p>Fiche <b>S1 – Vocabulaire Halloween</b> : colle et complète.</p><p class="small">Les mots restent au tableau pour l'orthographe.</p>`},
+ {t:"bye",hw:"Apprendre 6 mots d'Halloween 🎃"}
+]},
+/* ---------- 2 ---------- */
+{n:2,week:"Semaine du 9 nov.",ic:"🎶",c:H,title:"This is Halloween",sub:"Épisode 1 • jeux + chanson",slides:[
+ {t:"title",goal:"Je reconnais et j'écris les mots d'Halloween."},
+ {t:"flash",time:"4 min",set:"halloween"},
+ {t:"listen",time:"8 min",set:"halloween"},
+ {t:"slate",time:"10 min",h:"ARDOISES ! ✍️ Write the word",qs:[["🎃","a jack-o'-lantern"],["👻","a ghost"],["🦇","a bat"],["🧙‍♀️","a witch"],["🧹","a broom"],["💀","a skull"],["😈","a devil"]],prof:"Montrer, « Slates up! », clic pour la réponse."},
+ {t:"slate",time:"8 min",h:"I spy! How many…? 🔎",qs:[["🕷️🕷️🕷️ How many spiders are there?","There are three spiders."],["🦇🦇🦇🦇🦇 How many bats are there?","There are five bats."],["💀💀 How many skulls are there?","There are two skulls."],["🧹🧹🧹🧹 How many brooms are there?","There are four brooms."],["👻 How many ghosts are there?","There is one ghost."]],prof:"Comme la fiche « I spy » : on réinvestit there is / there are !"},
+ {t:"box",time:"15 min",h:"Song: This is Halloween 🎶",html:`<p>1. Écoute la chanson du film (début de l'épisode 1).</p><p>2. Complète le texte à trous : fiche <b>S2 – This is Halloween</b>.</p><p>3. On corrige et on chante ! 🎤</p>`,prof:"Passer la chanson 2 ou 3 fois. Lever la main à chaque mot d'Halloween entendu."},
+ {t:"memory",time:"8 min",set:"halloween",n:6},
+ {t:"bye",hw:"Réviser le vocabulaire d'Halloween"}
+]},
+/* ---------- 3 ---------- */
+{n:3,week:"Semaine du 16 nov.",ic:"👉",c:V,title:"Who's who? Pronouns",sub:"Épisode 2 • he, she, it, they",slides:[
+ {t:"title",goal:"Je sais choisir he, she, it ou they (fiche PRONOUNS)."},
+ {t:"flash",time:"4 min",set:"halloween",h:"Warm-up: Flash! ⚡"},
+ {t:"film",time:"10 min",ep:2,from:"4'27",to:"14'07",task:"Qui est-ce ? Jack 💀, Sally 🧵, Zero 🐕, the Mayor 🎩…"},
+ {t:"cards",time:"8 min",set:"pronouns",h:"Pronouns 👉",prof:"Montrer un garçon (he), une fille (she), un objet (it), un groupe (they)."},
+ {t:"rule",time:"6 min"},
+ {t:"slate",time:"10 min",h:"ARDOISES ! Which pronoun?",qs:[["Jack","he"],["Sally","she"],["The mayor","he"],["The moon 🌕","it"],["The witches 🧙‍♀️🧙‍♀️","they"],["The cat 🐈‍⬛","it"],["Sally and the doctor","they"]],prof:"Écrire le pronom sur l'ardoise."},
+ {t:"box",time:"12 min",h:"Fiche : pronouns 📒",html:`<p>Fiche <b>S3 – Pronoms</b> : colle et complète.</p><p>Puis le glossaire du film 📖</p>`},
+ {t:"bye",hw:"Apprendre he, she, it, they"}
+]},
+/* ---------- 4 ---------- */
+{n:4,week:"Semaine du 16 nov.",ic:"🗣️",c:V,title:"Pronouns practice",sub:"Entraînement + glossaire",slides:[
+ {t:"title",goal:"J'utilise le bon pronom à l'oral et à l'écrit."},
+ {t:"say",time:"5 min",set:"pronouns"},
+ {t:"pick",time:"10 min",h:"He, she, it or they? 🤔",items:[["The clown is riding a bicycle.","He is riding a bicycle."],["Jack is hiding.","He is hiding."],["Sally is clapping.","She is clapping."],["The moon is shining.","It is shining."],["The monsters are playing music.","They are playing music."],["The cat is on the trash can.","It is on the trash can."],["The witches are flying.","They are flying."]],opts:["He","She","It","They"]},
+ {t:"slate",time:"10 min",h:"ARDOISES ! Replace with a pronoun",qs:[["The mayor is happy.","He is happy."],["Sally is a doll.","She is a doll."],["The jack-o'-lanterns are spitting ghosts.","They are spitting ghosts."],["The bat is black.","It is black."]],prof:"Les élèves écrivent seulement le pronom, puis la phrase entière pour les plus rapides."},
+ {t:"memory",time:"10 min",set:"halloween",n:6,h:"🧠 Memory Halloween"},
+ {t:"box",time:"12 min",h:"Glossaire 📖",html:`<p>On complète le glossaire avec les mots des épisodes 1 et 2.</p><p class="small">Halloween Town, a skeleton, a jack-o'-lantern, the mayor…</p>`},
+ {t:"bye",hw:"Réviser les pronoms"}
+]},
+/* ---------- 5 ---------- */
+{n:5,week:"Semaine du 23 nov.",ic:"📦",c:G,title:"Where is it? Prepositions",sub:"Épisode 3 • in, on, under…",slides:[
+ {t:"title",goal:"Je sais dire où se trouve quelque chose : in, on, under, behind…"},
+ {t:"wm",time:"5 min",set:"halloween",h:"Warm-up: What's missing? 🙈"},
+ {t:"film",time:"8 min",ep:3,from:"14'07",to:"21'27",task:"Jack découvre un autre monde… lequel ? 🎄"},
+ {t:"preps",time:"10 min"},
+ {t:"box",time:"5 min",h:"Diaporama : Where…? 📽️",html:`<p>Projette le diaporama <b>S5 – Diaporama prépositions de lieu</b>.</p><p class="small">Les élèves répondent : « It's under the table! »</p>`},
+ {t:"where",time:"10 min",show:true,h:"Where is the ghost? 👻"},
+ {t:"box",time:"5 min",h:"Simon says 🧑‍🏫",html:`<p class="big">Simon says: put your pen <b>on</b> your book!</p><p>…<b>under</b> your chair! … <b>in</b> your pencil case! … <b>next to</b> your rubber!</p>`},
+ {t:"box",time:"12 min",h:"Fiche : prepositions 📒",html:`<p>Fiche <b>S5 – Fiche prépositions</b> : colle et complète.</p>`},
+ {t:"bye",hw:"Apprendre les prépositions"}
+]},
+/* ---------- 6 ---------- */
+{n:6,week:"Semaine du 23 nov.",ic:"👹",c:G,title:"Where is the monster?",sub:"Jeux + mini-bilan",slides:[
+ {t:"title",goal:"Je joue avec les prépositions de lieu."},
+ {t:"preps",time:"4 min",h:"Remember! 🧠"},
+ {t:"where",time:"8 min"},
+ {t:"box",time:"10 min",h:"Jeu : Where is the monster? 👹",html:`<p>Jeu du blog : <b>S6 – Jeu Where is the monster</b> (cartes à imprimer).</p><p>Par 2 : « Where is the monster? » – « It's behind the bed! »</p>`},
+ {t:"slate",time:"8 min",h:"ARDOISES ! Listen and draw 🎨",qs:[["The cat is under the table.","🐈‍⬛ sous la table"],["The jack-o'-lantern is on the chair.","🎃 sur la chaise"],["The ghost is behind the door.","👻 derrière la porte"],["The bat is in the box.","🦇 dans la boîte"]],prof:"Lire sans montrer. Les élèves dessinent, « Slates up! », puis clic."},
+ {t:"slate",time:"12 min",h:"Mini-bilan ✅",qs:[["sous","under"],["sur","on"],["dans","in"],["derrière","behind"],["à côté de","next to"],["devant","in front of"],["entre","between"]],prof:"Sur l'ardoise ou sur une feuille ramassée."},
+ {t:"bye",hw:"Réviser les prépositions"}
+]},
+/* ---------- 7 ---------- */
+{n:7,week:"Semaine du 30 nov.",ic:"🎄",c:X,title:"Christmas Town",sub:"Épisode 4 • vocabulaire de Noël",slides:[
+ {t:"title",goal:"Je connais le vocabulaire de Noël."},
+ {t:"where",time:"5 min",h:"Warm-up: Where is the monster? 👹"},
+ {t:"film",time:"12 min",ep:4,from:"21'27",to:"33'33",task:"Lève la main quand tu vois un objet de Noël ! 🙋"},
+ {t:"cards",time:"10 min",set:"xmas",h:"Christmas words 🎄",prof:"Montrer, répéter : fort / chuchoté / en chantant « Jingle bells » !"},
+ {t:"say",time:"8 min",set:"xmas"},
+ {t:"box",time:"12 min",h:"Fiche : Christmas 📒",html:`<p>Fiche <b>S7 – Vocabulaire Noël</b> : colle et complète.</p>`},
+ {t:"bye",hw:"Apprendre 6 mots de Noël 🎄"}
+]},
+/* ---------- 8 ---------- */
+{n:8,week:"Semaine du 30 nov.",ic:"🎁",c:X,title:"Christmas games",sub:"Jeux sur le vocabulaire de Noël",slides:[
+ {t:"title",goal:"Je reconnais et j'écris les mots de Noël."},
+ {t:"flash",time:"4 min",set:"xmas"},
+ {t:"wm",time:"7 min",set:"xmas"},
+ {t:"listen",time:"8 min",set:"xmas"},
+ {t:"slate",time:"10 min",h:"ARDOISES ! ✍️ Write the word",qs:[["🎁","a present"],["⭐","a star"],["🕯️","a candle"],["🎄","a Christmas tree"],["🧦","a Christmas stocking"],["cheminée","a fireplace"],["boule de Noël","a bauble"]]},
+ {t:"memory",time:"10 min",set:"xmas",n:8},
+ {t:"slate",time:"6 min",h:"Halloween or Christmas? 🎃 / 🎄",qs:[["a cauldron","🎃 Halloween"],["tinsel","🎄 Christmas"],["a broom","🎃 Halloween"],["a candy cane","🎄 Christmas"],["a skull","🎃 Halloween"],["a bauble","🎄 Christmas"]],prof:"Les élèves dessinent 🎃 ou 🎄 sur l'ardoise."},
+ {t:"bye",hw:"Réviser le vocabulaire de Noël"}
+]},
+/* ---------- 9 ---------- */
+{n:9,week:"Semaine du 7 déc.",ic:"🧸",c:X,title:"Toys! I would like…",sub:"Épisode 5 • les jouets",slides:[
+ {t:"title",goal:"Je connais les jouets et je dis ce que j'aimerais : I would like…"},
+ {t:"flash",time:"4 min",set:"xmas",h:"Warm-up: Flash! ⚡"},
+ {t:"film",time:"12 min",ep:5,from:"33'33",to:"45'17",task:"Quels jouets fabriquent les monstres ? 🧸🚂"},
+ {t:"cards",time:"8 min",set:"toys",h:"Toys 🧸"},
+ {t:"box",time:"6 min",h:"I would like… 🎁",html:`<p class="big">Dear Santa, <b>I would like</b> a kite. 🪁</p><p class="big">Dear Santa, <b>I would like</b> a bike and a ball. 🚲⚽</p><p class="small">I would like = j'aimerais</p>`,prof:"Faire le tour de la classe : chaque élève dit sa phrase."},
+ {t:"say",time:"5 min",set:"toys"},
+ {t:"box",time:"12 min",h:"Fiche : toys 📒",html:`<p>Fiche <b>S9 – Toys</b> : colle et complète.</p><p class="small">Page 2 : lis les lettres au Père Noël et retrouve qui a reçu quoi.</p>`},
+ {t:"bye",hw:"Apprendre 6 jouets 🧸"}
+]},
+/* ---------- 10 ---------- */
+{n:10,week:"Semaine du 7 déc.",ic:"🌏",c:X,title:"Christmas around the world",sub:"Épisode 6 • UK et Australie",slides:[
+ {t:"title",goal:"Je compare Noël au Royaume-Uni et en Australie."},
+ {t:"memory",time:"6 min",set:"toys",n:6,h:"Warm-up: Memory toys 🧸"},
+ {t:"film",time:"10 min",ep:6,from:"45'17",to:"55'40",task:"Que se passe-t-il le soir de Noël ? 🎅🛷"},
+ {t:"box",time:"8 min",h:"Christmas in the UK 🇬🇧 and in Australia 🇦🇺",html:`<div style="display:flex;gap:2vw;justify-content:center;flex-wrap:nowrap"><div class="card" style="width:37vw;padding:1.5vh 1.5vw;font-size:3.3vh;line-height:1.45"><div class="e">🇬🇧❄️</div><p><b>Winter</b> – it's cold</p><p>Stockings for Father Christmas 🧦</p><p>Christmas crackers 🎉</p><p>Roast turkey 🦃</p><p>Christmas pudding 🍮</p></div><div class="card" style="width:37vw;padding:1.5vh 1.5vw;font-size:3.3vh;line-height:1.45"><div class="e">🇦🇺☀️</div><p><b>Summer</b> – it's hot</p><p>A barbecue on the beach 🏖️</p><p>Sleighs pulled by white kangaroos 🦘</p><p>Animals wearing Santa hats 🎅</p></div></div>`},
+ {t:"tf",time:"10 min",h:"UK 🇬🇧 or Australia 🇦🇺?",items:[["Christmas is at the beginning of summer. ☀️","🇦🇺 Australia"],["Children hang stockings for Father Christmas. 🧦","🇬🇧 UK"],["People go to the beach for a barbecue. 🏖️","🇦🇺 Australia"],["Christmas crackers make a snapping sound. 🎉","🇬🇧 UK"],["White kangaroos pull the sleigh. 🦘","🇦🇺 Australia"],["The family eats roast turkey and Christmas pudding. 🦃","🇬🇧 UK"]],prof:"Les élèves écrivent UK ou AUS sur l'ardoise, puis clic sur la phrase."},
+ {t:"box",time:"12 min",h:"Fiche : Christmas around the world 📒",html:`<p>Fiche <b>S10 – Christmas around the world</b> : colle et complète.</p>`},
+ {t:"bye",hw:"Réviser Noël au Royaume-Uni et en Australie"}
+]},
+/* ---------- 11 ---------- */
+{n:11,week:"Semaine du 14 déc.",ic:"🎬",c:X,title:"The end! + révisions",sub:"Épisode 7 • on révise tout",slides:[
+ {t:"title",goal:"Je finis le film et je révise pour l'évaluation."},
+ {t:"film",time:"12 min",ep:7,from:"55'40",to:"la fin",task:"Comment finit l'histoire ? Jack est-il content ? 😀 / 😢"},
+ {t:"flash",time:"5 min",set:"mix",h:"Flash! Halloween + Christmas + toys ⚡"},
+ {t:"where",time:"6 min",h:"Where is the monster? 👹"},
+ {t:"pick",time:"6 min",h:"He, she, it or they? 🤔",items:[["Santa Claus is laughing.","He is laughing."],["Sally is clapping.","She is clapping."],["The kangaroos are pulling the sleigh.","They are pulling the sleigh."],["The present is big.","It is big."]],opts:["He","She","It","They"]},
+ {t:"memory",time:"10 min",set:"mix",n:8},
+ {t:"box",time:"8 min",h:"Glossaire 📖",html:`<p>On termine le glossaire du film.</p><p class="small">Révise : Halloween, pronoms, prépositions, Noël, jouets, UK / Australia.</p>`},
+ {t:"bye",hw:"Réviser pour l'évaluation 💪",next:"Next time: TEST + lettre au Père Noël! ✉️"}
+]},
+/* ---------- 12 ---------- */
+{n:12,week:"Semaine du 14 déc.",ic:"✉️",c:X,title:"Évaluation + Dear Santa",sub:"Évaluation et tâche finale",slides:[
+ {t:"title",goal:"Je montre ce que je sais faire et j'écris ma lettre au Père Noël."},
+ {t:"slate",time:"6 min",h:"Quiz express ⚡",qs:[["🧹","a broom"],["sur","on"],["Sally is clapping. → ? is clapping.","She"],["🎁","a present"],["Christmas in Australia: summer or winter?","summer ☀️"]]},
+ {t:"box",time:"2 min",h:"Ce que je dois savoir faire ✅",html:`<ul style="text-align:left;list-style:none;display:flex;flex-direction:column;gap:1.2vh"><li>🎃 Le vocabulaire d'Halloween</li><li>👉 Les pronoms : he, she, it, they</li><li>📦 Les prépositions : in, on, under, behind, next to…</li><li>🎄 Le vocabulaire de Noël et des jouets</li><li>🌏 Noël au Royaume-Uni et en Australie</li></ul>`},
+ {t:"box",time:"25 min",h:"TEST 📝",html:`<p class="big">Good luck! 🍀</p>`,prof:"Lire chaque consigne à voix haute."},
+ {t:"letter",time:"15 min"},
+ {t:"bye",hw:"",next:"Merry Christmas and Happy New Year! 🎄✨"}
+]}
+];
+
+/* ================= MOTEUR ================= */
+const stage=document.getElementById('stage');
+let S=null,cur=0;
+const pic=(v,size)=>v.e?v.e:`<span class="frpic" style="font-size:${size||3}vh">${v.fr}</span>`;
+const withPic=set=>set.filter(v=>v.e);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>s.replace(/\\/g,"\\\\").replace(/'/g,"\\'");
+let voice=null;
+function loadVoice(){voice=(()=>{const vs=speechSynthesis.getVoices();const en=vs.filter(v=>v.lang&&v.lang.replace("_","-").toLowerCase().startsWith("en"));
+  const pref=["Serena","Kate","Stephanie","Martha","Google UK English Female","Libby","Sonia","Hazel","Susan","Maisie","Samantha","Karen","Moira","Tessa","Aria","Jenny","Zira","Google US English"];
+  const male=/(Daniel|Arthur|Oliver|Ryan|George|Thomas|Alex|Fred|Rishi|Aaron|Guy|David|Mark|James|Male)/i;
+  for(const n of pref){const f=en.find(v=>v.name.includes(n));if(f)return f}
+  return en.find(v=>/female|woman/i.test(v.name))||en.find(v=>v.lang.replace("_","-")==="en-GB"&&!male.test(v.name))||en.find(v=>!male.test(v.name))||en[0]||null})()}
+if('speechSynthesis' in window){loadVoice();speechSynthesis.onvoiceschanged=loadVoice}
+function say(t,rate=.85){if(!('speechSynthesis' in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/[^\w\s',.!?-]/g,""));u.lang="en-GB";if(voice)u.voice=voice;u.rate=rate*.92;u.pitch=1.1;speechSynthesis.speak(u)}
+function fs(){if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{});else document.exitFullscreen()}
+function rev(el){el.querySelectorAll('.answer,.a').forEach(a=>a.classList.toggle('show'))}
+function darkOn(txt){const d=document.getElementById('dark');document.getElementById('darkTxt').innerHTML=txt||"🙈 Close your eyes!";d.classList.add('show');d.onclick=()=>d.classList.remove('show')}
+
+function home(){
+  S=null;speechSynthesis&&speechSynthesis.cancel();
+  stage.className="menu";stage.style.removeProperty('--c');
+  document.getElementById('count').textContent="";document.getElementById('nav').style.display="none";
+  const weeks={};SESS.forEach(s=>(weeks[s.week]=weeks[s.week]||[]).push(s));
+  stage.innerHTML=`<h1 style="color:var(--xmas)">🎃 L'étrange Noël de Mister Jack 🎄</h1>
+  <p class="small">6A • Period 2 • 12 séances • choisis la séance du jour</p>
+  <div class="btns"><button class="alt" onclick="window.open('entrainement.html','_blank')">🏋️ Tous les entraînements</button></div>
+  <div class="weeks">${Object.entries(weeks).map(([w,ss])=>`<div class="week"><h3>${w}</h3>${ss.map(s=>`<div class="sess" onclick="open_(${s.n-1})"><span class="ic">${s.ic}</span><div><b>Séance ${s.n} – ${s.title}</b><span>${s.sub}</span></div></div>`).join('')}</div>`).join('')}</div>`;
+}
+function open_(i){document.getElementById('nav').style.display="";S=SESS[i];cur=0;stage.className="";stage.style.setProperty('--c',S.c);draw()}
+function go(d){if(!S)return;const n=cur+d;if(n<0||n>=S.slides.length)return;cur=n;draw()}
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==="INPUT")return;
+  if(e.key==='ArrowRight'||e.key==='PageDown')go(1);
+  if(e.key==='ArrowLeft'||e.key==='PageUp')go(-1);
+  if(e.key==='Escape')document.getElementById('dark').classList.remove('show');
+});
+
+function head(sl){return `<span class="tag">Séance ${S.n}</span>${sl.time?`<span class="time">⏱ ${sl.time}</span>`:''}`}
+function draw(){
+  speechSynthesis&&speechSynthesis.cancel();
+  const sl=S.slides[cur];
+  document.getElementById('count').textContent=`Séance ${S.n} • ${cur+1} / ${S.slides.length}`;
+  stage.innerHTML=head(sl)+(R[sl.t]||R.box)(sl);
+  if(sl.t==="flash")flashNext(true);
+  if(sl.t==="wm")wmNew();
+  if(sl.t==="listen")lfNew();
+  if(sl.t==="say")sayNew(true);
+  if(sl.t==="memory")memNew();
+  if(sl.t==="where")whereNew();
+}
+
+/* ---- types de diapos ---- */
+const R={
+ title:sl=>`<div class="emoji">${S.ic}</div><h1>SÉANCE ${S.n}</h1><h3>${S.title}</h3><p class="small">${S.sub}</p><div class="goal">🎯 ${sl.goal}</div><div class="btns"><button class="ghost" onclick="window.open('entrainement.html#s'+S.n,'_blank')">🏋️ Entraînement de la séance</button></div>`,
+ box:sl=>`<h2>${sl.h}</h2><div class="box">${sl.html}</div>${sl.prof?`<div class="prof">Prof : ${sl.prof}</div>`:''}`,
+ film:sl=>`<h2>🎬 Let's watch!</h2><div class="film"><div class="clap">🎞️</div><div class="box"><div class="ep">Épisode ${sl.ep}</div><p class="big">${sl.from} ➡️ ${sl.to}</p></div></div><div class="goal">👀 ${sl.task}</div><div class="prof">Prof : compléter le glossaire après le visionnage.</div>`,
+ cards:sl=>{const set=SETS[sl.set];const cols=set.length>8?(set.length>12?7:6):4;
+   return `<h2>${sl.h}</h2><div class="fcgrid" style="grid-template-columns:repeat(${cols},1fr)">${set.map(v=>`<div class="card" onclick="say('${esc(v.w)}')" style="cursor:pointer"><div class="e">${pic(v,3.2)}</div><div class="w">${v.w}</div></div>`).join('')}</div><p class="small">🔊 Clique sur une carte pour l'entendre. Cadre violet = pas d'image : montre l'objet ou un dessin.</p>${sl.prof?`<div class="prof">Prof : ${sl.prof}</div>`:''}`},
+ flash:sl=>`<h2>${sl.h||"Flash! ⚡"}</h2><div class="card" style="min-width:40vw;min-height:42vh"><div class="e" id="flE" style="font-size:22vh"></div><div class="w answer" id="flW" style="font-size:5.5vh"></div></div>
+   <div class="btns"><button class="alt" onclick="document.getElementById('flW').classList.add('show');say(FL[fi].w)">Réponse 🔊</button><button onclick="flashNext()">Carte suivante ▶</button></div>`,
+ wm:sl=>`<h2>${sl.h||"What's missing? 🙈"}</h2><div class="grid6" id="wmG"></div>
+   <div class="btns"><button class="warn" onclick="wmHide(1)">🙈 Close your eyes! (1)</button><button class="warn" onclick="wmHide(2)">🙈 Close your eyes! (2)</button><button class="alt" onclick="wmAns()">Réponse</button><button class="ghost" onclick="wmNew()">↺</button></div><p class="answer big" id="wmA"></p>`,
+ say:sl=>`<h2>🗣️ Say it!</h2><div class="card" style="min-width:40vw;min-height:40vh"><div class="e" id="syE" style="font-size:20vh"></div><div class="w answer" id="syW" style="font-size:5.5vh"></div></div>
+   <div class="btns"><button class="alt" onclick="document.getElementById('syW').classList.add('show');say(SY[si].w)">🔊 Écouter le modèle</button><button class="ghost" onclick="say(SY[si].w,.55)">🐢 Lentement</button><button onclick="sayNew()">Suivant ▶</button></div>
+   <div class="prof">Prof : un élève dit le mot, on écoute le modèle, toute la classe répète.</div>`,
+ listen:sl=>`<h2>👂 Listen and find!</h2><div class="btns"><button class="alt" style="font-size:3.8vh" onclick="say(LF.w)">🔊 Listen!</button><button class="ghost" onclick="say(LF.w,.55)">🐢</button><button onclick="lfNew()">Suivant ▶</button></div><div class="choices" id="lfC"></div><p class="answer big" id="lfA"></p>`,
+ memory:sl=>`<h2>${sl.h||"🧠 Memory"}</h2><div class="memo" id="mem"></div><p class="small">Par team, à tour de rôle : lis le mot à voix haute quand tu le retournes !</p>`,
+ slate:sl=>`<h2>${sl.h}</h2><ol class="q">${sl.qs.map((q,i)=>`<li onclick="rev(this);say('${esc(q[1])}')"><span class="n">${i+1}</span>${q[0]} <span class="answer">→ ${q[1]}</span></li>`).join('')}</ol><div class="prof">${sl.prof?`Prof : ${sl.prof}`:"« Slates up! » puis clic sur la ligne pour la réponse."}</div>`,
+ rule:sl=>`<h2>Pronouns: he, she, it or they? 📌</h2><div class="box" style="display:grid;grid-template-columns:repeat(2,minmax(30vw,auto));gap:2vh 4vw;text-align:left">
+   <p>👦 <b>he</b> → for a boy<br><span class="small">Jack is hiding. → <b>He</b> is hiding.</span></p>
+   <p>👧 <b>she</b> → for a girl<br><span class="small">Sally is clapping. → <b>She</b> is clapping.</span></p>
+   <p>🌕 <b>it</b> → for a thing (or an animal)<br><span class="small">The moon is shining. → <b>It</b> is shining.</span></p>
+   <p>👻👻 <b>they</b> → for two or more<br><span class="small">The monsters are playing music. → <b>They</b> are playing music.</span></p></div>`,
+ pick:sl=>`<h2>${sl.h}</h2><ol class="q">${sl.items.map((q,i)=>`<li onclick="rev(this);say('${esc(q[1])}')"><span class="n">${i+1}</span>${q[0]} <span class="answer">→ ${q[1]}</span></li>`).join('')}</ol><p class="small">${sl.opts.join(" • ")}</p><div class="prof">Prof : les élèves lèvent ☝️ He, ✌️ She, 🤟 It, 🖐️ They (ou ardoise), puis clic.</div>`,
+ tf:sl=>`<h2>${sl.h}</h2><div class="tf">${sl.items.map(q=>`<div class="s" onclick="this.nextElementSibling.classList.toggle('show')">${q[0]}</div><div class="a">${q[1]}</div>`).join('')}</div>${sl.prof?`<div class="prof">Prof : ${sl.prof}</div>`:''}`,
+ preps:sl=>`<h2>${sl.h||"Prepositions 📦"}</h2><div class="prep">${PREPS.map(p=>`<div class="card" onclick="say('${p.w}')" style="cursor:pointer">${miniScene(p.k)}<div class="w">${p.w}</div><div class="small">${p.fr}</div></div>`).join('')}</div><p class="small">🔊 Clique pour entendre.</p>`,
+ where:sl=>`<h2 id="whH">Where is it? 👀</h2><div class="scene" id="scene"></div>
+   <div class="btns"><button class="alt" onclick="whereAns()">Réponse 🔊</button><button onclick="whereNew()">Suivant ▶</button></div><p class="answer big" id="whA"></p>
+   <div class="prof">Prof : « Where is the monster? » → « It's under the box! »</div>`,
+ letter:sl=>`<h2>✉️ Dear Santa…</h2><div class="letter">Dear Santa,<br>My name is <u>&nbsp;</u>.<br>I am <u>&nbsp;</u> years old.<br>I live in <u>&nbsp;</u>.<br><b>I would like</b> a <u>&nbsp;</u> and a <u>&nbsp;</u>, please.<br>Thank you, Santa! 🎅<br>Love, <u>&nbsp;</u></div><div class="prof">Prof : modèle à recopier et compléter, décoré pour l'affichage. Aide : fiches toys et xmas.</div>`,
+ bye:sl=>`<h2>Goodbye everybody! 👋</h2>${sl.hw?`<div class="box"><p>📝 Homework : ${sl.hw}</p></div>`:''}${sl.next?`<p class="big" style="color:var(--c)">${sl.next}</p>`:''}<div class="btns"><button class="alt" onclick="window.open('entrainement.html#s'+S.n,'_blank')">🏋️ Entraînement – Séance ${S.n}</button><button class="ghost" onclick="home()">🏠 Menu des séances</button></div>`
+};
+
+/* ---- Flash ---- */
+let FL=[],fi=0;
+function flashNext(reset){const sl=S.slides[cur];if(reset||fi>=FL.length-1){FL=shuffle(SETS[sl.set]);fi=0}else fi++;
+  document.getElementById('flE').innerHTML=pic(FL[fi],6);const w=document.getElementById('flW');w.textContent=FL[fi].w;w.classList.remove('show')}
+/* ---- What's missing ---- */
+let WM=[],WG=[];
+function wmNew(){WM=shuffle(withPic(SETS[S.slides[cur].set])).slice(0,6);WG=[];wmDraw();document.getElementById('wmA').classList.remove('show')}
+function wmDraw(){document.getElementById('wmG').innerHTML=WM.map((v,i)=>`<div class="card ${WG.includes(i)?'gap':''}"><div class="e">${v.e}</div><div class="w">${v.w}</div></div>`).join('')}
+function wmHide(n){WG=shuffle([0,1,2,3,4,5]).slice(0,n);darkOn();wmDraw();const a=document.getElementById('wmA');a.textContent=WG.map(i=>WM[i].w).join(" and ")+(WG.length>1?" are":" is")+" missing!";a.classList.remove('show')}
+function wmAns(){const a=document.getElementById('wmA');a.classList.add('show');say(a.textContent)}
+/* ---- Say it ---- */
+let SY=[],si=0;
+function sayNew(reset){if(reset||si>=SY.length-1){SY=shuffle(SETS[S.slides[cur].set]);si=0}else si++;
+  document.getElementById('syE').innerHTML=pic(SY[si],6);const w=document.getElementById('syW');w.textContent=SY[si].w;w.classList.remove('show')}
+/* ---- Listen and find ---- */
+let LF=null;
+function lfNew(){const set=withPic(SETS[S.slides[cur].set]);LF=set[Math.random()*set.length|0];
+  const ch=shuffle([LF,...shuffle(set.filter(x=>x!==LF)).slice(0,3)]);
+  document.getElementById('lfC').innerHTML=ch.map(x=>`<div class="choice" onclick="this.classList.add(${x===LF}?'ok':'ko');if(${x===LF})document.getElementById('lfA').classList.add('show')"><span class="e">${x.e}</span></div>`).join('');
+  const a=document.getElementById('lfA');a.textContent=LF.w;a.classList.remove('show');setTimeout(()=>say(LF.w),350)}
+/* ---- Memory ---- */
+let mF=null,mL=false,mFound=0,mN=0;
+function memNew(){const sl=S.slides[cur];const set=shuffle(withPic(SETS[sl.set])).filter((v,i,a)=>a.findIndex(x=>x.w===v.w)===i).slice(0,sl.n||6);mN=set.length;
+  const cards=shuffle(set.flatMap((v,i)=>[{k:i,h:`<span class="e">${v.e}</span>`,w:v.w},{k:i,h:v.w,w:v.w}]));mF=null;mL=false;mFound=0;
+  const m=document.getElementById('mem');m.style.gridTemplateColumns=`repeat(${mN*2>12?8:6},1fr)`;
+  m.innerHTML=cards.map(c=>`<div class="mc" data-k="${c.k}" data-w="${c.w.replace(/"/g,'&quot;')}" onclick="flip(this)"><div class="in"><div class="f">?</div><div class="b">${c.h}</div></div></div>`).join('')}
+function flip(el){if(mL||el.classList.contains('flip')||el.classList.contains('done'))return;el.classList.add('flip');
+  if(!mF){mF=el;return}
+  if(mF.dataset.k===el.dataset.k){const a=mF;mF=null;say(el.dataset.w);setTimeout(()=>{a.classList.add('done');el.classList.add('done');mFound++;if(mFound===mN)setTimeout(()=>{darkOn("🎉 Well done!");say("Well done!")},600)},400)}
+  else{mL=true;const a=mF;mF=null;setTimeout(()=>{a.classList.remove('flip');el.classList.remove('flip');mL=false},1200)}}
+/* ---- Prépositions ---- */
+const PREPS=[{k:"in",w:"in",fr:"dans"},{k:"on",w:"on",fr:"sur"},{k:"under",w:"under",fr:"sous"},{k:"behind",w:"behind",fr:"derrière"},{k:"next",w:"next to",fr:"à côté de"},{k:"front",w:"in front of",fr:"devant"},{k:"between",w:"between",fr:"entre"}];
+/* positions en % : [x,y,taille relative, zIndex] du monstre par rapport à la boîte centrée (50,55) */
+const POS={in:[50,60,.55,3],on:[50,22,.8,3],under:[50,92,.6,3],behind:[58,42,.8,1],next:[78,58,.8,3],front:[46,70,1.05,4],between:[50,58,.8,3]};
+function miniScene(k){const p=POS[k];const two=k==="between";
+  return `<div style="position:relative;width:12vw;height:10vh;margin:0 auto">${two?`<span style="position:absolute;left:18%;top:55%;transform:translate(-50%,-50%);font-size:4.5vh">📦</span><span style="position:absolute;left:82%;top:55%;transform:translate(-50%,-50%);font-size:4.5vh">📦</span>`:`<span style="position:absolute;left:50%;top:55%;transform:translate(-50%,-50%);font-size:5.5vh;z-index:2">${k==="in"?"🗑️":"📦"}</span>`}<span style="position:absolute;left:${p[0]}%;top:${p[1]}%;transform:translate(-50%,-50%);font-size:${3.6*p[2]}vh;z-index:${p[3]};${k==="behind"?"filter:brightness(.8);":""}">👻</span></div>`}
+const MONS=[{e:"👹",w:"the monster"},{e:"👻",w:"the ghost"},{e:"🦇",w:"the bat"},{e:"🕷️",w:"the spider"},{e:"🎃",w:"the jack-o'-lantern"},{e:"🐈‍⬛",w:"the cat"}];
+const OBJS=[{e:"📦",w:"the box"},{e:"🪑",w:"the chair"},{e:"🎁",w:"the present"}];
+let WH=null;
+function whereNew(){const p=PREPS[Math.random()*PREPS.length|0];const m=MONS[Math.random()*MONS.length|0];const o=OBJS[Math.random()*OBJS.length|0];
+  if(WH&&WH.p===p&&PREPS.length>1)return whereNew();
+  WH={p,m,o};const q=POS[p.k];const sc=document.getElementById('scene');
+  const objs=p.k==="between"?`<span class="obj" style="left:28%;top:55%">${o.e}</span><span class="obj" style="left:72%;top:55%">${o.e}</span>`
+    :`<span class="obj" style="left:50%;top:55%;z-index:2">${p.k==="in"?"🗑️":o.e}</span>`;
+  const top=p.k==="under"?86:q[1];
+  sc.innerHTML=`<div class="floor"></div>${objs}<span class="mon" style="left:${p.k==="next"?74:q[0]}%;top:${top}%;font-size:${9*q[2]}vh;z-index:${q[3]};${p.k==="behind"?"filter:brightness(.75);":""}">${m.e}</span>`;
+  const objW=p.k==="in"?"the bin":(p.k==="between"?"the two "+plural(o.w.replace("the ","")):o.w);
+  const a=document.getElementById('whA');a.textContent=`${cap(m.w)} is ${p.w} ${objW}.`;a.classList.remove('show');
+  document.getElementById('whH').textContent=`Where is ${m.w}? ${m.e}`;
+  document.querySelector('.prof').textContent=`Prof : « Where is ${m.w}? » → les élèves répondent : « It's ${p.w} … ! »`}
+function plural(w){return w.endsWith("x")?w+"es":w+"s"}
+function cap(s){return s[0].toUpperCase()+s.slice(1)}
+function whereAns(){const a=document.getElementById('whA');a.classList.add('show');say(a.textContent)}
+
+home();
+</script>
+</body>
+</html>

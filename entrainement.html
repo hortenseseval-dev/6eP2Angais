@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>6A Anglais – Entraînements Period 2</title>
+<style>
+  :root{--bg:#fbf6ee;--ink:#1f2a44;--muted:#64748b;--card:#fff;--c:#b91c1c;--ok:#15803d;--okbg:#dcfce7;--ko:#dc2626;--kobg:#fee2e2;--yellow:#fde68a;--purple:#7c3aed}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{min-height:100vh;background:var(--bg);color:var(--ink);font-family:"Comic Sans MS","Chalkboard SE","Segoe UI",Arial,sans-serif;font-size:clamp(16px,2.4vw,22px)}
+  header{background:#fff;box-shadow:0 3px 0 rgba(0,0,0,.05);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  header h1{font-size:1.15em;color:var(--c)}
+  main{max-width:900px;margin:0 auto;padding:18px 16px 40px;display:flex;flex-direction:column;gap:18px;align-items:stretch}
+  h2{font-size:1.5em;color:var(--c);text-align:center}
+  .sub{color:var(--muted);text-align:center;font-size:.9em}
+  button{font-family:inherit;font-size:1em;padding:10px 18px;border:none;border-radius:99px;background:var(--c);color:#fff;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.18)}
+  button:active{transform:translateY(3px);box-shadow:none}
+  button.ghost{background:#e2e8f0;color:var(--ink)} button.alt{background:var(--ok)}
+  .list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+  .item{background:#fff;border-radius:18px;padding:14px;box-shadow:0 5px 0 rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;cursor:pointer;border:3px solid transparent;text-decoration:none;color:inherit}
+  .item:hover{border-color:var(--yellow)}
+  .item .ic{font-size:2.2em}
+  .item b{display:block}
+  .item small{color:var(--muted)}
+  .item .best{margin-left:auto;font-size:.9em;white-space:nowrap}
+  .q{background:#fff;border-radius:22px;padding:20px 16px;box-shadow:0 6px 0 rgba(0,0,0,.06);display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+  .consigne{font-weight:bold;font-size:1.05em}
+  .prompt{font-size:1.3em}
+  .pic{font-size:4.5em;line-height:1.1}
+  .frpic{display:inline-block;color:var(--purple);border:3px dashed #d8b4fe;border-radius:14px;padding:6px 14px;font-size:1.3em}
+  .opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%}
+  .opt{background:#f8fafc;border:3px solid #e2e8f0;border-radius:16px;padding:14px 10px;font-size:1.1em;cursor:pointer;font-family:inherit;color:var(--ink);box-shadow:none}
+  .opt.e{font-size:2.6em;padding:8px}
+  .opt.ok{border-color:var(--ok);background:var(--okbg)} .opt.ko{border-color:var(--ko);background:var(--kobg)}
+  .opt:disabled{cursor:default}
+  input.w{font-family:inherit;font-size:1.3em;padding:10px 14px;border-radius:14px;border:3px solid #cbd5e1;text-align:center;width:min(100%,420px)}
+  input.w.ok{border-color:var(--ok);background:var(--okbg)} input.w.ko{border-color:var(--ko);background:var(--kobg)}
+  .fb{min-height:1.6em;font-weight:bold}
+  .fb.ok{color:var(--ok)} .fb.ko{color:var(--ko)}
+  .bar{height:12px;background:#e2e8f0;border-radius:99px;overflow:hidden;width:100%}
+  .bar i{display:block;height:100%;background:var(--c);transition:width .3s}
+  .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .scene{position:relative;width:min(100%,360px);height:170px;margin:0 auto;background:#f8fafc;border-radius:16px}
+  .scene span{position:absolute;transform:translate(-50%,-50%);line-height:1}
+  .stars{font-size:3em}
+  .letter{background:#fff;border-left:10px solid var(--c);border-radius:16px;padding:18px 20px;text-align:left;line-height:1.9;box-shadow:0 6px 0 rgba(0,0,0,.06)}
+  .letter input,.letter select{font-family:inherit;font-size:1em;padding:4px 8px;border-radius:10px;border:2px solid #cbd5e1;max-width:100%}
+  .tip{background:#fff7ed;border:2px solid #fed7aa;border-radius:14px;padding:10px 14px;font-size:.9em}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎃🎄 6A • Entraînements – L'étrange Noël de Mister Jack</h1>
+  <button class="ghost" onclick="location.hash=''">📋 Tous les entraînements</button>
+</header>
+<main id="app"></main>
+
+<script>
+/* ===== Vocabulaire (fiches du blog segpachouette) ===== */
+const HAL=[["💀","a skull","un crâne"],["🦴","a skeleton","un squelette"],["🕷️","a spider","une araignée"],["🧙‍♀️","a witch","une sorcière"],["🦇","a bat","une chauve-souris"],["🧹","a broom","un balai"],["👻","a ghost","un fantôme"],["🎃","a jack-o'-lantern","une citrouille-lanterne"],["🍬","sweets","des bonbons"],["🫕","a cauldron","un chaudron"],["🧛","a vampire","un vampire"],["😈","a devil","un diable"]];
+const XM=[["🎁","a present","un cadeau"],["","a fireplace","une cheminée"],["⭐","a star","une étoile"],["🕯️","a candle","une bougie"],["","a candy cane","un sucre d'orge"],["🎄","a Christmas tree","un sapin de Noël"],["","tinsel","une guirlande"],["","a bauble","une boule de Noël"],["🧦","a Christmas stocking","une chaussette de Noël"],["🎅","Santa Claus","le Père Noël"],["🦌","a reindeer","un renne"],["🛷","a sleigh","un traîneau"]];
+const TOY=[["🚗","a car","une voiture"],["🧩","a jigsaw","un puzzle"],["🃏","cards","des cartes"],["🪁","a kite","un cerf-volant"],["🛴","a scooter","une trottinette"],["📖","a book","un livre"],["","a jump rope","une corde à sauter"],["","marbles","des billes"],["🪆","a doll","une poupée"],["🎮","a video game","un jeu vidéo"],["🎲","a board game","un jeu de société"],["🚲","a bike","un vélo"],["⚽","a ball","un ballon"]];
+const V=a=>a.map(x=>({e:x[0],w:x[1],fr:x[2]}));
+const H=V(HAL),X=V(XM),T=V(TOY);
+const pics=s=>s.filter(v=>v.e);
+const PREP=[["in","dans"],["on","sur"],["under","sous"],["behind","derrière"],["next to","à côté de"],["in front of","devant"],["between","entre"]];
+
+/* ===== Générateurs de questions ===== */
+const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=(a,n)=>sh(a).slice(0,n);
+function others(set,v,n,key="w"){return pick(set.filter(x=>x[key]!==v[key]),n)}
+const listenQ=(set,n)=>pick(pics(set),n).map(v=>({k:"listen",say:v.w,c:"Écoute et clique sur la bonne image 🔊",opts:sh([v,...others(pics(set),v,3)]).map(o=>({h:o.e,ok:o===v,e:1})),ans:v.w}));
+const picWordQ=(set,n)=>pick(pics(set),n).map(v=>({k:"qcm",c:"Clique sur le bon mot",p:`<div class="pic">${v.e}</div>`,opts:sh([v,...others(set,v,3)]).map(o=>({h:o.w,ok:o===v})),ans:v.w,say:v.w}));
+const frEnQ=(set,n)=>pick(set,n).map(v=>({k:"qcm",c:"Comment dit-on en anglais… ?",p:`<span class="frpic">${v.fr}</span>`,opts:sh([v,...others(set,v,3)]).map(o=>({h:o.w,ok:o===v})),ans:v.w,say:v.w}));
+const writeQ=(set,n)=>pick(set,n).map(v=>({k:"write",c:"Écris le mot en anglais",p:v.e?`<div class="pic">${v.e}</div><div class="sub">${v.fr}</div>`:`<span class="frpic">${v.fr}</span>`,ans:v.w,say:v.w}));
+const pronQ=list=>list.map(([s,a])=>({k:"qcm",c:"He, she, it or they ?",p:s,opts:["he","she","it","they"].map(o=>({h:o,ok:o===a})),ans:a,say:s.replace("…",a)}));
+const POS={in:[50,58,.55,3],on:[50,22,.8,3],under:[50,88,.6,3],behind:[60,40,.8,1],next:[78,58,.8,3],front:[46,70,1.05,4],between:[50,58,.8,3]};
+const MON=[["👻","the ghost"],["🦇","the bat"],["🕷️","the spider"],["🎃","the jack-o'-lantern"],["🐈‍⬛","the cat"],["👹","the monster"]];
+function scene(p,m){const k=p==="next to"?"next":p==="in front of"?"front":p;const q=POS[k];
+  const box=k==="between"?`<span style="left:22%;top:58%;font-size:70px">📦</span><span style="left:78%;top:58%;font-size:70px">📦</span>`:`<span style="left:50%;top:58%;font-size:90px;z-index:2">${k==="in"?"🗑️":"📦"}</span>`;
+  return `<div class="scene">${box}<span style="left:${k==="next"?76:q[0]}%;top:${q[1]}%;font-size:${55*q[2]}px;z-index:${q[3]};${k==="behind"?"filter:brightness(.75)":""}">${m[0]}</span></div>`}
+const prepQ=(n,write)=>Array.from({length:n},()=>{const p=PREP[Math.random()*PREP.length|0];const m=MON[Math.random()*MON.length|0];
+  const obj=p[0]==="in"?"the bin":p[0]==="between"?"the two boxes":"the box";const sent=`${m[1][0].toUpperCase()+m[1].slice(1)} is ${p[0]} ${obj}.`;
+  return write?{k:"write",c:`Where is ${m[1]}? Écris la préposition`,p:scene(p[0],m),ans:p[0],say:sent,show:sent}
+              :{k:"qcm",c:`Where is ${m[1]}?`,p:scene(p[0],m),opts:sh([p,...pick(PREP.filter(x=>x!==p),3)]).map(o=>({h:o[0],ok:o===p})),ans:p[0],say:sent,show:sent}});
+const tfQ=(list,a,b)=>list.map(([s,ans])=>({k:"qcm",c:"Choisis la bonne réponse",p:s,opts:[a,b].map(o=>({h:o,ok:o===ans})),ans,say:""}));
+const howMany=()=>{const N=["","one","two","three","four","five","six"];return pick(pics(H),4).map(v=>{const n=1+(Math.random()*5|0);const base=v.w.replace(/^an? /,"");
+  const plur=base==="sweets"?"sweets":base.endsWith("ch")||base.endsWith("sh")?base+"es":base+"s";const good=n===1?`There is ${N[1]} ${base}.`:`There are ${N[n]} ${plur}.`;
+  const bad1=n===1?`There are ${N[1]} ${base}.`:`There is ${N[n]} ${plur}.`;const bad2=`There are ${N[n+1]} ${plur}.`;
+  return {k:"qcm",c:"I spy! How many are there?",p:`<div class="pic" style="font-size:2.6em">${v.e.repeat(n)}</div>`,opts:sh([good,bad1,bad2]).map(o=>({h:o,ok:o===good})),ans:good,say:good}})};
+const sortQ=()=>sh([...pick(H,4).map(v=>[v,"Halloween 🎃"]),...pick(X,4).map(v=>[v,"Christmas 🎄"])]).map(([v,a])=>({k:"qcm",c:"Halloween or Christmas ?",p:`<b>${v.w}</b>`,opts:["Halloween 🎃","Christmas 🎄"].map(o=>({h:o,ok:o===a})),ans:a,say:v.w}));
+const articleQ=()=>sh([["a kite","a"],["marbles","—"],["a doll","a"],["cards","—"],["a bike","a"],["a jump rope","a"]]).slice(0,4).map(([w,a])=>({k:"qcm",c:"Dear Santa, I would like …",p:`I would like ___ ${w.replace(/^a /,"")}.`,opts:[["a","a"],["—","rien"]].map(o=>({h:o[1],ok:o[0]===a})),ans:a==="a"?"a":"rien (pluriel)",say:`I would like ${w}.`}));
+
+/* ===== Les 12 entraînements ===== */
+const SESS=[
+ {n:1,ic:"🎃",t:"Halloween words",d:"Écouter et reconnaître les mots d'Halloween",q:()=>[...listenQ(H,5),...picWordQ(H,5)]},
+ {n:2,ic:"🎶",t:"This is Halloween – I spy!",d:"Écrire les mots + there is / there are",q:()=>[...writeQ(pics(H),5),...howMany()]},
+ {n:3,ic:"👉",t:"Pronouns: he, she, it, they",d:"Choisir le bon pronom",q:()=>pronQ(sh([["Jack","he"],["Sally","she"],["The mayor","he"],["The moon","it"],["The witches","they"],["The cat","it"],["Sally and the doctor","they"],["The clown","he"],["The jack-o'-lanterns","they"],["The bat","it"]]))},
+ {n:4,ic:"🗣️",t:"Pronouns practice",d:"Remplacer par he, she, it ou they",q:()=>pronQ(sh([["Jack is hiding. → … is hiding.","he"],["Sally is clapping. → … is clapping.","she"],["The moon is shining. → … is shining.","it"],["The monsters are playing music. → … are playing music.","they"],["The clown is riding a bicycle. → … is riding a bicycle.","he"],["The cat is on the trash can. → … is on the trash can.","it"],["The witches are flying. → … are flying.","they"],["Sally and the doctor are arguing. → … are arguing.","they"]]))},
+ {n:5,ic:"📦",t:"Prepositions",d:"in, on, under, behind, next to, in front of, between",q:()=>prepQ(10,false)},
+ {n:6,ic:"👹",t:"Where is the monster?",d:"Écrire la bonne préposition",q:()=>prepQ(8,true)},
+ {n:7,ic:"🎄",t:"Christmas words",d:"Écouter et reconnaître les mots de Noël",q:()=>[...listenQ(X,4),...picWordQ(X,4),...frEnQ(X.filter(v=>!v.e),3)]},
+ {n:8,ic:"🎁",t:"Christmas games",d:"Écrire les mots + Halloween ou Noël ?",q:()=>[...writeQ(X,5),...sortQ()]},
+ {n:9,ic:"🧸",t:"Toys – I would like…",d:"Les jouets + « a » ou pas ?",q:()=>[...listenQ(T,4),...picWordQ(T,4),...articleQ()]},
+ {n:10,ic:"🌏",t:"Christmas around the world",d:"UK ou Australie ?",q:()=>tfQ(sh([["Christmas is at the beginning of summer.","Australia 🇦🇺"],["Children hang stockings for Father Christmas.","UK 🇬🇧"],["People go to the beach for a barbecue.","Australia 🇦🇺"],["Christmas crackers make a snapping sound.","UK 🇬🇧"],["White kangaroos pull the sleigh.","Australia 🇦🇺"],["The family eats roast turkey.","UK 🇬🇧"],["Animals wear Santa hats.","Australia 🇦🇺"],["For dessert, they eat Christmas pudding.","UK 🇬🇧"]]),"UK 🇬🇧","Australia 🇦🇺")},
+ {n:11,ic:"🎬",t:"Révisions",d:"Un peu de tout pour préparer l'évaluation",q:()=>sh([...picWordQ(H,2),...picWordQ(X,2),...picWordQ(T,2),...prepQ(2,false),...pronQ(pick([["Sally","she"],["Jack","he"],["The reindeer","they"],["The present","it"]],2)),...tfQ(pick([["Christmas is in summer.","Australia 🇦🇺"],["People eat Christmas pudding.","UK 🇬🇧"]],1),"UK 🇬🇧","Australia 🇦🇺")])},
+ {n:12,ic:"✉️",t:"Dear Santa",d:"Écrire ma lettre au Père Noël",letter:true}
+];
+
+/* ===== Voix ===== */
+let voice=null;function lv(){voice=(()=>{const vs=speechSynthesis.getVoices();const en=vs.filter(v=>v.lang&&v.lang.replace("_","-").toLowerCase().startsWith("en"));
+  const pref=["Serena","Kate","Stephanie","Martha","Google UK English Female","Libby","Sonia","Hazel","Susan","Maisie","Samantha","Karen","Moira","Tessa","Aria","Jenny","Zira","Google US English"];
+  const male=/(Daniel|Arthur|Oliver|Ryan|George|Thomas|Alex|Fred|Rishi|Aaron|Guy|David|Mark|James|Male)/i;
+  for(const n of pref){const f=en.find(v=>v.name.includes(n));if(f)return f}
+  return en.find(v=>/female|woman/i.test(v.name))||en.find(v=>v.lang.replace("_","-")==="en-GB"&&!male.test(v.name))||en.find(v=>!male.test(v.name))||en[0]||null})()}
+if('speechSynthesis' in window){lv();speechSynthesis.onvoiceschanged=lv}
+function say(t,r=.85){if(!t||!('speechSynthesis' in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/[^\w\s',.!?-]/g,""));u.lang="en-GB";if(voice)u.voice=voice;u.rate=r*.92;u.pitch=1.1;speechSynthesis.speak(u)}
+
+/* ===== Stockage du meilleur score (facultatif) ===== */
+const best=n=>{try{return +localStorage.getItem("p2best"+n)||0}catch(e){return 0}};
+const saveBest=(n,s)=>{try{if(s>best(n))localStorage.setItem("p2best"+n,s)}catch(e){}};
+const starsFor=p=>p>=.9?"⭐⭐⭐":p>=.6?"⭐⭐":p>0?"⭐":"";
+
+/* ===== Pages ===== */
+const app=document.getElementById('app');
+function menu(){app.innerHTML=`<h2>Choisis ton entraînement 🏋️</h2><p class="sub">Fais l'entraînement de la séance du jour, autant de fois que tu veux !</p>
+ <div class="list">${SESS.map(s=>`<a class="item" href="#s${s.n}"><span class="ic">${s.ic}</span><span><b>Séance ${s.n} : ${s.t}</b><small>${s.d}</small></span><span class="best">${s.letter?"":starsFor(best(s.n)/100)}</span></a>`).join('')}</div>
+ <div class="tip">🔊 Allume le son pour les exercices d'écoute. Utilise Chrome, Edge ou Safari.</div>`}
+let Q=[],qi=0,score=0,cur=null,done=false;
+function start(s){cur=s;if(s.letter)return letter();Q=s.q();qi=0;score=0;draw()}
+function draw(){const q=Q[qi];done=false;
+  app.innerHTML=`<h2>${cur.ic} Séance ${cur.n} : ${cur.t}</h2><div class="bar"><i style="width:${qi/Q.length*100}%"></i></div>
+  <div class="q"><div class="consigne">${q.c}</div>
+   ${q.k==="listen"?`<div class="row"><button class="alt" onclick="say(Q[qi].say)">🔊 Écouter</button><button class="ghost" onclick="say(Q[qi].say,.55)">🐢 Lentement</button></div>`:`<div class="prompt">${q.p}</div>`}
+   ${q.k==="write"?`<input class="w" id="w" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="…" onkeydown="if(event.key==='Enter')check()"><button onclick="check()">Valider ✔️</button>`
+     :`<div class="opts">${q.opts.map((o,i)=>`<button class="opt ${o.e?'e':''}" onclick="choose(${i},this)">${o.h}</button>`).join('')}</div>`}
+   <div class="fb" id="fb"></div><div class="row" id="nx"></div></div>
+  <p class="sub">Question ${qi+1} / ${Q.length} • Score : ${score}</p>`;
+  if(q.k==="listen")setTimeout(()=>say(q.say),300);
+  if(q.k==="write")document.getElementById('w').focus()}
+const norm=s=>s.toLowerCase().replace(/[’`]/g,"'").replace(/[!?.,]/g,"").replace(/^(a|an|the) /,"").replace(/-/g," ").replace(/\s+/g," ").trim();
+function result(ok){if(done)return;done=true;const q=Q[qi];if(ok)score++;
+  const fb=document.getElementById('fb');fb.className="fb "+(ok?"ok":"ko");
+  fb.innerHTML=ok?`✅ Bravo ! ${q.show||""}`:`❌ La bonne réponse : <u>${q.ans}</u>${q.show&&q.show!==q.ans?` – ${q.show}`:""}`;
+  if(q.say)say(q.say);
+  document.getElementById('nx').innerHTML=`<button onclick="next()">${qi+1<Q.length?"Suivant ▶":"Voir mon score 🏆"}</button>`}
+function choose(i,el){if(done)return;const q=Q[qi];const ok=q.opts[i].ok;el.classList.add(ok?'ok':'ko');
+  if(!ok)document.querySelectorAll('.opt').forEach((b,j)=>{if(q.opts[j].ok)b.classList.add('ok')});
+  document.querySelectorAll('.opt').forEach(b=>b.disabled=true);result(ok)}
+function check(){const i=document.getElementById('w');if(!i.value.trim())return;const ok=norm(i.value)===norm(Q[qi].ans);i.className="w "+(ok?"ok":"ko");i.disabled=true;result(ok)}
+function next(){qi++;if(qi<Q.length)return draw();const p=score/Q.length;saveBest(cur.n,Math.round(p*100));
+  app.innerHTML=`<div class="q"><div class="stars">${starsFor(p)||"💪"}</div><h2>${p>=.9?"Excellent !":p>=.6?"Bien joué !":"Continue, tu vas y arriver !"}</h2>
+   <p class="prompt">${score} / ${Q.length}</p><div class="row"><button onclick="start(cur)">🔁 Recommencer</button><button class="ghost" onclick="location.hash=''">📋 Autre entraînement</button></div></div>`;
+  say(p>=.6?"Well done!":"Try again!")}
+
+/* ===== Séance 12 : lettre ===== */
+function letter(){const toys=T.map(v=>`<option>${v.w}</option>`).join('');
+ app.innerHTML=`<h2>✉️ Séance 12 : Dear Santa</h2><p class="sub">Complète ta lettre, puis écoute-la et recopie-la sur ta fiche.</p>
+ <div class="letter">Dear Santa,<br>My name is <input id="l1" size="10" placeholder="ton prénom">.<br>
+ I am <select id="l2">${[10,11,12,13,14].map(n=>`<option>${["","","","","","","","","","","ten","eleven","twelve","thirteen","fourteen"][n]}</option>`).join('')}</select> years old.<br>
+ I live in <input id="l3" size="10" placeholder="ta ville">.<br>
+ I would like <select id="l4">${toys}</select> and <select id="l5">${toys}</select>, please.<br>
+ Thank you, Santa! 🎅<br>Love, <span id="l6">…</span></div>
+ <div class="row"><button class="alt" onclick="readL()">🔊 Écouter ma lettre</button><button class="ghost" onclick="location.hash=''">📋 Autre entraînement</button></div>
+ <div class="tip">💡 « I would like <b>a</b> kite » mais « I would like marbles » : pas de « a » quand il y en a plusieurs !</div>`;
+ document.getElementById('l5').selectedIndex=3;
+ document.getElementById('l1').oninput=e=>document.getElementById('l6').textContent=e.target.value||"…"}
+function readL(){const g=id=>document.getElementById(id).value;say(`Dear Santa, my name is ${g('l1')||"..."}. I am ${g('l2')} years old. I live in ${g('l3')||"..."}. I would like ${g('l4')} and ${g('l5')}, please. Thank you, Santa!`)}
+
+/* ===== Routeur ===== */
+function route(){speechSynthesis&&speechSynthesis.cancel();const m=location.hash.match(/^#s(\d+)/);const s=m&&SESS.find(x=>x.n==+m[1]);if(s)start(s);else menu();window.scrollTo(0,0)}
+window.addEventListener('hashchange',route);route();
+</script>
+</body>
+</html>
